@@ -79,9 +79,11 @@ public class DijkstraAlgorithm {
 
 
     public static void main(String[] args) {
+
         int num_nodes = 6;
 
         WeightedGraph graph = new WeightedGraph(num_nodes);
+        
         graph.addEdge(0, 1, 2);
         graph.addEdge(0, 2, 4);
         graph.addEdge(1, 2, 1);
