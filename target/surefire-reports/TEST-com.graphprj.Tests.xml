@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.graphprj.Tests" time="0.304" tests="15" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.graphprj.Tests" time="0.351" tests="15" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-21\bin"/>
-    <property name="sun.java.command" value="C:\Users\MICROS~1\AppData\Local\Temp\surefire11727076700093577426\surefirebooter10619580307266327109.jar C:\Users\Micro Systems\AppData\Local\Temp\surefire11727076700093577426 2025-04-19T12-38-56_249-jvmRun1 surefire10150302111747390908tmp surefire_0870552048022944157tmp"/>
+    <property name="sun.java.command" value="C:\Users\MICROS~1\AppData\Local\Temp\surefire2891967566758626210\surefirebooter11807813489260464284.jar C:\Users\Micro Systems\AppData\Local\Temp\surefire2891967566758626210 2025-04-19T18-47-48_177-jvmRun1 surefire13864312183242607735tmp surefire_013399332295732223937tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="D:\clone\shortest-path-algorithms\target\test-classes;D:\clone\shortest-path-algorithms\target\classes;C:\Users\Micro Systems\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\Micro Systems\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\MICROS~1\AppData\Local\Temp\surefire11727076700093577426\surefirebooter10619580307266327109.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\MICROS~1\AppData\Local\Temp\surefire2891967566758626210\surefirebooter11807813489260464284.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.6+8-LTS-188"/>
@@ -58,19 +58,19 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testPerformanceVeryLarge" classname="com.graphprj.Tests" time="0.065"/>
-  <testcase name="testPerformanceMedium" classname="com.graphprj.Tests" time="0.009"/>
+  <testcase name="testPerformanceVeryLarge" classname="com.graphprj.Tests" time="0.042"/>
+  <testcase name="testPerformanceMedium" classname="com.graphprj.Tests" time="0.005"/>
   <testcase name="testPathReconstruction" classname="com.graphprj.Tests" time="0"/>
-  <testcase name="testRandomGraphs" classname="com.graphprj.Tests" time="0.09"/>
+  <testcase name="testRandomGraphs" classname="com.graphprj.Tests" time="0.125"/>
   <testcase name="testMediumGraph" classname="com.graphprj.Tests" time="0"/>
-  <testcase name="testSmallGraph" classname="com.graphprj.Tests" time="0.001"/>
-  <testcase name="testPerformanceLarge" classname="com.graphprj.Tests" time="0.001"/>
+  <testcase name="testSmallGraph" classname="com.graphprj.Tests" time="0.002"/>
+  <testcase name="testPerformanceLarge" classname="com.graphprj.Tests" time="0.002"/>
   <testcase name="testPerformanceSmall" classname="com.graphprj.Tests" time="0"/>
-  <testcase name="testIdentityPath" classname="com.graphprj.Tests" time="0"/>
-  <testcase name="testNegativeWeights" classname="com.graphprj.Tests" time="0.001"/>
+  <testcase name="testIdentityPath" classname="com.graphprj.Tests" time="0.001"/>
+  <testcase name="testNegativeWeights" classname="com.graphprj.Tests" time="0"/>
   <testcase name="testAlgorithmComparison" classname="com.graphprj.Tests" time="0.001"/>
-  <testcase name="testDisconnectedGraph" classname="com.graphprj.Tests" time="0.001"/>
-  <testcase name="testNegativeCycle" classname="com.graphprj.Tests" time="0"/>
+  <testcase name="testDisconnectedGraph" classname="com.graphprj.Tests" time="0.006"/>
+  <testcase name="testNegativeCycle" classname="com.graphprj.Tests" time="0.001"/>
   <testcase name="testLargeGraph" classname="com.graphprj.Tests" time="0.001"/>
-  <testcase name="testNoPath" classname="com.graphprj.Tests" time="0.001"/>
+  <testcase name="testNoPath" classname="com.graphprj.Tests" time="0.003"/>
 </testsuite>
