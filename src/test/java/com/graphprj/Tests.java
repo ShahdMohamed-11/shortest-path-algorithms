@@ -74,7 +74,7 @@ public class Tests {
     }
     
     @Test
-    public void testSmallGraph() {
+    public void FloydSmallGraph() {
         int n = smallGraph.length;
         double[][] costs = new double[n][n];
         Integer[][] predecessors = new Integer[n][n];
@@ -90,7 +90,7 @@ public class Tests {
     }
     
     @Test
-    public void testMediumGraph() {
+    public void FloydMediumGraph() {
         int n = mediumGraph.length;
         double[][] costs = new double[n][n];
         Integer[][] predecessors = new Integer[n][n];
@@ -104,7 +104,7 @@ public class Tests {
     }
     
     @Test
-    public void testLargeGraph() {
+    public void FloydLargeGraph() {
         int n = largeGraph.length;
         double[][] costs = new double[n][n];
         Integer[][] predecessors = new Integer[n][n];
@@ -118,7 +118,7 @@ public class Tests {
     }
     
     @Test
-    public void testNegativeWeights() {
+    public void FloydNegativeWeights() {
         int n = negativeWeightGraph.length;
         double[][] costs = new double[n][n];
         Integer[][] predecessors = new Integer[n][n];
@@ -132,7 +132,7 @@ public class Tests {
     }
     
     @Test
-    public void testNegativeCycle() {
+    public void FloydNegativeCycle() {
         int n = negativeCycleGraph.length;
         double[][] costs = new double[n][n];
         Integer[][] predecessors = new Integer[n][n];
@@ -144,7 +144,7 @@ public class Tests {
     }
     
     @Test
-    public void testDisconnectedGraph() {
+    public void FloydDisconnectedGraph() {
         int n = disconnectedGraph.length;
         double[][] costs = new double[n][n];
         Integer[][] predecessors = new Integer[n][n];
@@ -159,7 +159,7 @@ public class Tests {
     }
     
     @Test
-    public void testPathReconstruction() {
+    public void FloydPathReconstruction() {
         int n = mediumGraph.length;
         double[][] costs = new double[n][n];
         Integer[][] predecessors = new Integer[n][n];
@@ -178,7 +178,7 @@ public class Tests {
     }
     
     @Test
-    public void testNoPath() {
+    public void FloydNoPath() {
         int n = disconnectedGraph.length;
         double[][] costs = new double[n][n];
         Integer[][] predecessors = new Integer[n][n];
@@ -191,7 +191,7 @@ public class Tests {
     }
     
     @Test
-    public void testIdentityPath() {
+    public void FloydIdentityPath() {
         int n = smallGraph.length;
         double[][] costs = new double[n][n];
         Integer[][] predecessors = new Integer[n][n];
@@ -206,7 +206,7 @@ public class Tests {
     }
     
     @Test
-    public void testPerformanceSmall() {
+    public void FloydPerformanceSmall() {
         int n = smallGraph.length;
         double[][] costs = new double[n][n];
         Integer[][] predecessors = new Integer[n][n];
@@ -224,7 +224,7 @@ public class Tests {
     }
     
     @Test
-    public void testPerformanceMedium() {
+    public void FloydPerformanceMedium() {
         int n = mediumGraph.length;
         double[][] costs = new double[n][n];
         Integer[][] predecessors = new Integer[n][n];
@@ -241,7 +241,7 @@ public class Tests {
     }
     
     @Test
-    public void testPerformanceLarge() {
+    public void FloydPerformanceLarge() {
         int n = largeGraph.length;
         double[][] costs = new double[n][n];
         Integer[][] predecessors = new Integer[n][n];
@@ -258,7 +258,7 @@ public class Tests {
     }
     
     @Test
-    public void testPerformanceVeryLarge() {
+    public void FloydPerformanceVeryLarge() {
         int n = 50; // Create a 50x50 random graph
         double[][] graph = generateRandomGraph(n, 0.3, -5, 10);
         double[][] costs = new double[n][n];
@@ -276,7 +276,7 @@ public class Tests {
     }
     
     @Test
-    public void testRandomGraphs() {
+    public void FloydRandomGraphs() {
         for (int i = 0; i < 5; i++) {
             int n = 10 + i * 5; // Test graphs from 10x10 to 30x30
             double[][] graph = generateRandomGraph(n, 0.4, 1, 20);
@@ -303,7 +303,145 @@ public class Tests {
             }
         }
     }
-    
+
+    @Test
+    public void BellmanSimpleGraph() {
+        EdgeGraph edges = new EdgeGraph();
+        edges.add(0,1,5);
+        edges.add(1,2,3);
+        int[] cost = new int[3];
+        int[] parent = new int[3];
+
+        BellmanFord b = new BellmanFord(3, edges.getGraph().toArray(new Edge[0]), 0, cost, parent);
+        boolean result = b.getShortestDistances();
+        assertTrue(result);
+        assertEquals(0, cost[0]);
+        assertEquals(5, cost[1]);
+        assertEquals(8, cost[2]);
+    }
+
+    @Test
+    public void BellmanNegativeEdgeNoCycle() {
+        EdgeGraph edges = new EdgeGraph();
+        edges.add(0,1,4);
+        edges.add(1,2,-2);
+        edges.add(2,3,3);
+        int[] cost = new int[4];
+        int[] parent = new int[4];
+
+        BellmanFord b = new BellmanFord(4, edges.getGraph().toArray(new Edge[0]), 0, cost, parent);
+        boolean result = b.getShortestDistances();
+        assertTrue(result);
+        assertEquals(5, cost[3]);
+    }
+
+    @Test
+    public void BellmanNegativeCycle() {
+        EdgeGraph edges = new EdgeGraph();
+        edges.add(0,1,1);
+        edges.add(1,2,-1);
+        edges.add(2,0,-1);
+        int[] cost = new int[3];
+        int[] parent = new int[3];
+
+        BellmanFord b = new BellmanFord(3, edges.getGraph().toArray(new Edge[0]), 0, cost, parent);
+        boolean result = b.getShortestDistances();
+        assertFalse(result);
+    }
+
+    @Test
+    public void BellmanDisconnectedNode() {
+        EdgeGraph edges = new EdgeGraph();
+        edges.add(0,1,2);
+        int[] cost = new int[3];
+        int[] parent = new int[3];
+
+        BellmanFord b = new BellmanFord(3, edges.getGraph().toArray(new Edge[0]), 0, cost, parent);
+        boolean result = b.getShortestDistances();
+        assertTrue(result);
+        assertEquals(Integer.MAX_VALUE, cost[2]);
+    }
+
+    @Test
+    public void BellmanSingleNode() {
+        EdgeGraph edges = new EdgeGraph();
+        int[] cost = new int[1];
+        int[] parent = new int[1];
+
+        BellmanFord b = new BellmanFord(1, edges.getGraph().toArray(new Edge[0]), 0, cost, parent);
+        boolean result = b.getShortestDistances();
+        assertTrue(result);
+        assertEquals(0, cost[0]);
+    }
+
+    @Test
+    public void BellmanMultiplePaths() {
+        EdgeGraph edges = new EdgeGraph();
+        edges.add(0,1,10);
+        edges.add(0,2,5);
+        edges.add(2,1,2);
+        edges.add(1,3,1);
+        edges.add(2,3,9);
+        int[] cost = new int[4];
+        int[] parent = new int[4];
+
+        BellmanFord b = new BellmanFord(4, edges.getGraph().toArray(new Edge[0]), 0, cost, parent);
+        boolean result = b.getShortestDistances();
+        assertTrue(result);
+        assertEquals(7, cost[1]);
+        assertEquals(8, cost[3]);
+    }
+
+    @Test
+    public void BellmanCycleNoNegative() {
+        EdgeGraph edges = new EdgeGraph();
+        edges.add(0,1,2);
+        edges.add(1,2,2);
+        edges.add(2,0,1);
+        edges.add(2,3,5);
+        int[] cost = new int[4];
+        int[] parent = new int[4];
+
+        BellmanFord b = new BellmanFord(4, edges.getGraph().toArray(new Edge[0]), 0, cost, parent);
+        boolean result = b.getShortestDistances();
+        assertTrue(result);
+        assertEquals(4, cost[2]);
+        assertEquals(9, cost[3]);
+    }
+
+
+    @Test
+    public void BellmanZeroWeightEdges() {
+        EdgeGraph edges = new EdgeGraph();
+        edges.add(0,1,0);
+        edges.add(1,2,0);
+        edges.add(2,3,0);
+        int[] cost = new int[4];
+        int[] parent = new int[4];
+
+        BellmanFord b = new BellmanFord(4, edges.getGraph().toArray(new Edge[0]), 0, cost, parent);
+        boolean result = b.getShortestDistances();
+        assertTrue(result);
+        assertEquals(0, cost[3]);
+    }
+
+    @Test
+    public void BellmanLargeInput() {
+        int n = 100;
+        EdgeGraph edges = new EdgeGraph();
+        for (int i = 0; i < n - 1; i++) {
+            edges.add(i,i+1,1);
+        }
+
+        int[] cost = new int[n];
+        int[] parent = new int[n];
+        BellmanFord b = new BellmanFord(n, edges.getGraph().toArray(new Edge[0]), 0, cost, parent);
+        boolean result = b.getShortestDistances();
+        assertTrue(result);
+        assertEquals(99, cost[99]);
+    }
+
+
     @Test
     public void testAlgorithmComparison() {
         // This is a skeleton for algorithm comparison
