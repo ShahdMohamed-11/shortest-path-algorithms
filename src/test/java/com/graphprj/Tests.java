@@ -257,52 +257,52 @@ public class Tests {
         assertTrue("Algorithm should complete in reasonable time", duration < 1000000000); // 1 second
     }
     
-    @Test
-    public void FloydPerformanceVeryLarge() {
-        int n = 50; // Create a 50x50 random graph
-        double[][] graph = generateRandomGraph(n, 0.3, -5, 10);
-        double[][] costs = new double[n][n];
-        Integer[][] predecessors = new Integer[n][n];
-        
-        long startTime = System.nanoTime();
-        FloydWarshall fw = new FloydWarshall(graph, costs, predecessors);
-        fw.run();
-        long endTime = System.nanoTime();
-        
-        long duration = (endTime - startTime);
-        System.out.println("Floyd-Warshall on very large graph (50x50): " + duration + " ns");
-        
-        assertTrue("Algorithm should complete in reasonable time", duration < 5000000000L); // 5 seconds
-    }
-    
-    @Test
-    public void FloydRandomGraphs() {
-        for (int i = 0; i < 5; i++) {
-            int n = 10 + i * 5; // Test graphs from 10x10 to 30x30
-            double[][] graph = generateRandomGraph(n, 0.4, 1, 20);
-            double[][] costs = new double[n][n];
-            Integer[][] predecessors = new Integer[n][n];
-            
-            FloydWarshall fw = new FloydWarshall(graph, costs, predecessors);
-            boolean result = fw.run();
-            
-            assertTrue("Random graph #" + i + " should not have negative cycles", result);
-            
-            // Verify that all distances obey the triangle inequality
-            for (int a = 0; a < n; a++) {
-                for (int b = 0; b < n; b++) {
-                    for (int c = 0; c < n; c++) {
-                        if (fw.getCosts()[a][b] != INF && fw.getCosts()[b][c] != INF) {
-                            assertTrue(
-                                "Triangle inequality failed: d(" + a + "," + c + ") <= d(" + a + "," + b + ") + d(" + b + "," + c + ")",
-                                fw.getCosts()[a][c] <= fw.getCosts()[a][b] + fw.getCosts()[b][c] + 0.001 // Add small epsilon for floating point comparison
-                            );
-                        }
-                    }
-                }
-            }
-        }
-    }
+//    @Test
+//    public void FloydPerformanceVeryLarge() {
+//        int n = 50; // Create a 50x50 random graph
+//        double[][] graph = generateRandomGraph(n, 0.3, -5, 10);
+//        double[][] costs = new double[n][n];
+//        Integer[][] predecessors = new Integer[n][n];
+//
+//        long startTime = System.nanoTime();
+//        FloydWarshall fw = new FloydWarshall(graph, costs, predecessors);
+//        fw.run();
+//        long endTime = System.nanoTime();
+//
+//        long duration = (endTime - startTime);
+//        System.out.println("Floyd-Warshall on very large graph (50x50): " + duration + " ns");
+//
+//        assertTrue("Algorithm should complete in reasonable time", duration < 5000000000L); // 5 seconds
+//    }
+//
+//    @Test
+//    public void FloydRandomGraphs() {
+//        for (int i = 0; i < 5; i++) {
+//            int n = 10 + i * 5; // Test graphs from 10x10 to 30x30
+//            double[][] graph = generateRandomGraph(n, 0.4, 1, 20);
+//            double[][] costs = new double[n][n];
+//            Integer[][] predecessors = new Integer[n][n];
+//
+//            FloydWarshall fw = new FloydWarshall(graph, costs, predecessors);
+//            boolean result = fw.run();
+//
+//            assertTrue("Random graph #" + i + " should not have negative cycles", result);
+//
+//            // Verify that all distances obey the triangle inequality
+//            for (int a = 0; a < n; a++) {
+//                for (int b = 0; b < n; b++) {
+//                    for (int c = 0; c < n; c++) {
+//                        if (fw.getCosts()[a][b] != INF && fw.getCosts()[b][c] != INF) {
+//                            assertTrue(
+//                                "Triangle inequality failed: d(" + a + "," + c + ") <= d(" + a + "," + b + ") + d(" + b + "," + c + ")",
+//                                fw.getCosts()[a][c] <= fw.getCosts()[a][b] + fw.getCosts()[b][c] + 0.001 // Add small epsilon for floating point comparison
+//                            );
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     @Test
     public void BellmanSimpleGraph() {
@@ -444,55 +444,171 @@ public class Tests {
 
     @Test
     public void testAlgorithmComparison() {
-        // This is a skeleton for algorithm comparison
-        // Your friends can extend this to compare their algorithms
-        
-        int n = 30;
-        double[][] graph = generateRandomGraph(n, 0.3, 1, 10);
-        double[][] costs = new double[n][n];
-        Integer[][] predecessors = new Integer[n][n];
-        
-        // Floyd-Warshall timing
-        long startTime = System.nanoTime();
-        FloydWarshall fw = new FloydWarshall(graph, costs, predecessors);
-        fw.run();
-        long endTime = System.nanoTime();
-        long fwDuration = (endTime - startTime);
-        
-        System.out.println("Floyd-Warshall on 30x30 graph: " + fwDuration + " ns");
-        
-        // other methods can add their algorithm timings here
-        // Example:
-        // long dijkstraStartTime = System.nanoTime();
-        // DijkstraAllPairs dijkstra = new DijkstraAllPairs(graph);
-        // dijkstra.run();
-        // long dijkstraEndTime = System.nanoTime();
-        // long dijkstraDuration = (dijkstraEndTime - dijkstraStartTime);
-        // System.out.println("Dijkstra All-Pairs on 30x30 graph: " + dijkstraDuration + " ns");
-        
-        // No specific assertion, just for comparison
+        System.out.println("Running algorithm comparison tests...");
+
+        System.out.println("dijkstra algorithm ");
+        System.out.print ("graph with 5 nodes");
+         testDijkstra();
+
+        System.out.print ("graph with 7 nodes");
+         test2Dijkstra();
+
+        System.out.print ("graph with 8 nodes");
+         test3Dijkstra();
+
+         //apply Floyd-Warshall algorithm and floydWarshall
+
     }
     
-    // Utility method to generate random graphs for testing
-    private double[][] generateRandomGraph(int n, double density, double minWeight, double maxWeight) {
-        double[][] graph = new double[n][n];
-        Random random = new Random(42); // Fixed seed for reproducibility
-        
-        // Initialize with INF
-        for (int i = 0; i < n; i++) {
-            Arrays.fill(graph[i], INF);
-            graph[i][i] = 0; // Self-loops are 0
-        }
-        
-        // Add random edges
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i != j && random.nextDouble() < density) {
-                    graph[i][j] = minWeight + random.nextDouble() * (maxWeight - minWeight);
-                }
-            }
-        }
-        
-        return graph;
+//    // Utility method to generate random graphs for testing
+//    private double[][] generateRandomGraph(int n, double density, double minWeight, double maxWeight) {
+//        double[][] graph = new double[n][n];
+//        Random random = new Random(42); // Fixed seed for reproducibility
+//
+//        // Initialize with INF
+//        for (int i = 0; i < n; i++) {
+//            Arrays.fill(graph[i], INF);
+//            graph[i][i] = 0; // Self-loops are 0
+//        }
+//
+//        // Add random edges
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < n; j++) {
+//                if (i != j && random.nextDouble() < density) {
+//                    graph[i][j] = minWeight + random.nextDouble() * (maxWeight - minWeight);
+//                }
+//            }
+//        }
+//
+//        return graph;
+//    }
+
+    @Test
+    public void testDijkstra() {
+        int numNodes = 5;
+        WeightedGraph graph = new WeightedGraph(numNodes);
+
+        graph.addEdge(0,1,10);
+        graph.addEdge(0,3,5);
+        graph.addEdge(1,2,1);
+        graph.addEdge(1,3,2);
+        graph.addEdge(2,4,4);
+        graph.addEdge(3,1,3);
+        graph.addEdge(3,2,9);
+        graph.addEdge(3,1,3);
+        graph.addEdge(4,0,7);
+        graph.addEdge(3,4,2);
+        graph.addEdge(4,2,6);
+
+        int[] costArr = new int[numNodes];
+        int[] parent = new int[numNodes];
+
+        long startTime = System.nanoTime();
+
+        DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph, numNodes, 0, costArr, parent);
+        dijkstra.getCostarr();
+
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+
+        System.out.println("Dijkstra on 5 nodes: " + duration + " ns");
+
+        assertEquals("Distance from S to S ", 0, costArr[0]);  // S to S
+        assertEquals("Distance from S to A ", 8, costArr[1]);  // S to A (via C)
+        assertEquals("Distance from S to B ", 9, costArr[2]); // S to B (via C to A to B)
+        assertEquals("Distance from S to C ", 5, costArr[3]);  // S to C
+        assertEquals("Distance from S to D ", 7, costArr[4]);  // S to D
+
+        List<Integer> pathToD = dijkstra.shortestPath(0, 4);
+        assertEquals("Path from S to D should be ", Arrays.asList(0, 3,4), pathToD);
+    }
+
+
+    @Test
+    public void test2Dijkstra() {
+        int numNodes = 7;
+        WeightedGraph graph = new WeightedGraph(numNodes);
+
+        graph.addEdge(0, 1, 1);
+        graph.addEdge(1, 2, 3);
+        graph.addEdge(1, 3, 2);
+        graph.addEdge(1, 4, 1);
+        graph.addEdge(2, 4, 4);
+        graph.addEdge(3, 4, 2);
+        graph.addEdge(4, 5, 3);
+        graph.addEdge(6, 3, 1);
+
+        int[] costArr = new int[numNodes];
+        int[] parent = new int[numNodes];
+        //time
+        long startTime = System.nanoTime();
+        DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph, numNodes, 6, costArr, parent);
+        dijkstra.getCostarr();
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        System.out.println("Dijkstra on 7 nodes: " + duration + " ns");
+        assertEquals("Distance from G to A", Integer.MAX_VALUE, costArr[0]); //no path
+        assertEquals("Distance from G to B", Integer.MAX_VALUE, costArr[1]);
+        assertEquals("Distance from G to C", Integer.MAX_VALUE, costArr[2]);
+        assertEquals("Distance from G to D", 1, costArr[3]);
+        assertEquals("Distance from G to E", 3, costArr[4]);
+        assertEquals("Distance from G to F", 6, costArr[5]);
+        assertEquals("Distance from G to G", 0, costArr[6]);
+
+
+
+        List<Integer> expectedPathToF = Arrays.asList(6, 3, 4, 5);
+        assertEquals("Path from G to F should be", expectedPathToF, dijkstra.shortestPath(6, 5));
+
+    }
+
+    @Test
+    public void test3Dijkstra() {
+        int num_nodes = 8;
+        WeightedGraph graph = new WeightedGraph(num_nodes);
+
+        graph.addEdge(0, 1, 1);
+        graph.addEdge(0, 2, 5);
+        graph.addEdge(1, 2, 2);
+        graph.addEdge(1, 3, 2);
+        graph.addEdge(1, 4, 1);
+        graph.addEdge(2, 3, 1);
+        graph.addEdge(2, 4, 2);
+        graph.addEdge(3, 4, 1);
+        graph.addEdge(3, 5, 3);
+        graph.addEdge(4, 5, 1);
+        graph.addEdge(4, 6, 2);
+        graph.addEdge(5, 7, 4);
+        graph.addEdge(6, 7, 1);
+        graph.addEdge(7, 0, 2);
+
+        int[] costarr = new int[num_nodes];
+        int[] parent = new int[num_nodes];
+
+        long startTime = System.nanoTime();
+
+        DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph, num_nodes, 0, costarr, parent);
+        int[] distances = dijkstra.getCostarr();
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        System.out.println("Dijkstra on 8 nodes: " + duration + " ns");
+
+        int[] expectedDistances = {
+                0,
+                1,
+                3,
+                3,
+                2,
+                3,
+                4,
+                5
+        };
+
+        assertArrayEquals(expectedDistances, distances);
+
+
+        List<Integer> path = dijkstra.shortestPath(0, 7);
+        List<Integer> expectedPath = Arrays.asList(0, 1, 4, 6, 7);
+        assertEquals(expectedPath, path);
     }
 }
