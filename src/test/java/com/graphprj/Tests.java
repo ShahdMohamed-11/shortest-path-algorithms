@@ -249,7 +249,7 @@ public class Tests {
         long end = System.nanoTime();
 
         long duration = end - start;
-        System.out.println("Floyd-Warshall on Compare1 graph (5x5): " + duration + " ns");
+        System.out.println("Floyd-Warshall on 5 nodes: " + duration + " ns");
 
         assertTrue("Algorithm should complete in reasonable time", duration < 1000000000); // 1s
     }
@@ -305,7 +305,7 @@ public class Tests {
         long end = System.nanoTime();
 
         long duration = end - start;
-        System.out.println("Floyd-Warshall on Compare2 graph (7x7): " + duration + " ns");
+        System.out.println("Floyd-Warshall on 7 nodes: " + duration + " ns");
 
         assertTrue("Algorithm should complete in reasonable time", duration < 1000000000); // 1s
     }
@@ -364,7 +364,7 @@ public class Tests {
         long end = System.nanoTime();
 
         long duration = end - start;
-        System.out.println("Floyd-Warshall on Compare3 graph (8x8): " + duration + " ns");
+        System.out.println("Floyd-Warshall on 8 nodes: " + duration + " ns");
 
         assertTrue("Algorithm should complete in reasonable time", duration < 1000000000); // 1s
     }
@@ -564,22 +564,149 @@ public class Tests {
     public void testAlgorithmComparison() {
         System.out.println("Running algorithm comparison tests...");
 
-        System.out.println("dijkstra algorithm ");
-        System.out.print ("graph with 5 nodes");
+
+        System.out.println ("graph with 5 nodes ");
          testDijkstra();
          FloydPerformanceCompare1();
+         test1Bellman();
          
 
-        System.out.print ("graph with 7 nodes");
+        System.out.println ("graph with 7 nodes ");
          test2Dijkstra();
          FloydPerformanceCompare2();
+         test2Bellman();;
 
-        System.out.print ("graph with 8 nodes");
+        System.out.println ("graph with 8 nodes ");
          test3Dijkstra();
          FloydPerformanceCompare3();
+         test3Bellman();
 
-         //apply Floyd-Warshall algorithm and floydWarshall
 
+    }
+
+    @Test
+    public void test1Bellman() {
+        int numNodes = 5;
+        EdgeGraph edges = new EdgeGraph();
+
+        edges.add(0,1,10);
+        edges.add(0,3,5);
+        edges.add(1,2,1);
+        edges.add(1,3,2);
+        edges.add(2,4,4);
+        edges.add(3,1,3);
+        edges.add(3,2,9);
+        edges.add(3,1,3);
+        edges.add(4,0,7);
+        edges.add(3,4,2);
+        edges.add(4,2,6);
+
+        int[] cost = new int[numNodes];
+        int[] parent = new int[numNodes];
+
+        long startTime = System.nanoTime();
+
+        BellmanFord b = new BellmanFord(numNodes, edges.getGraph().toArray(new Edge[0]), 0, cost, parent);
+        boolean result = b.getShortestDistances();
+
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+
+        System.out.println("Bellman-Ford on 5 nodes: " + duration + " ns");
+
+        assertEquals("Distance from S to S ", 0, cost[0]);  // S to S
+        assertEquals("Distance from S to A ", 8, cost[1]);  // S to A (via C)
+        assertEquals("Distance from S to B ", 9, cost[2]); // S to B (via C to A to B)
+        assertEquals("Distance from S to C ", 5, cost[3]);  // S to C
+        assertEquals("Distance from S to D ", 7, cost[4]);  // S to D
+
+        List<Integer> pathToD = b.getPath(4);
+        assertEquals("Path from S to D should be ", Arrays.asList(0, 3,4), pathToD);
+    }
+
+    @Test
+    public void test2Bellman() {
+        int numNodes = 7;
+        EdgeGraph graph = new EdgeGraph();
+
+        graph.add(0, 1, 1);
+        graph.add(1, 2, 3);
+        graph.add(1, 3, 2);
+        graph.add(1, 4, 1);
+        graph.add(2, 4, 4);
+        graph.add(3, 4, 2);
+        graph.add(4, 5, 3);
+        graph.add(6, 3, 1);
+
+        int[] cost = new int[numNodes];
+        int[] parent = new int[numNodes];
+        //time
+        long startTime = System.nanoTime();
+        BellmanFord b = new BellmanFord(numNodes, graph.getGraph().toArray(new Edge[0]), 6, cost, parent);
+        boolean result = b.getShortestDistances();
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        System.out.println("Bellman-Ford on 7 nodes: " + duration + " ns");
+        assertEquals("Distance from G to A", Integer.MAX_VALUE, cost[0]); //no path
+        assertEquals("Distance from G to B", Integer.MAX_VALUE, cost[1]);
+        assertEquals("Distance from G to C", Integer.MAX_VALUE, cost[2]);
+        assertEquals("Distance from G to D", 1, cost[3]);
+        assertEquals("Distance from G to E", 3, cost[4]);
+        assertEquals("Distance from G to F", 6, cost[5]);
+        assertEquals("Distance from G to G", 0, cost[6]);
+
+        List<Integer> expectedPathToF = Arrays.asList(6, 3, 4, 5);
+        assertEquals("Path from G to F should be", expectedPathToF, b.getPath( 5));
+    }
+
+    @Test
+    public void test3Bellman() {
+        int num_nodes = 8;
+        EdgeGraph graph = new EdgeGraph();
+
+        graph.add(0, 1, 1);
+        graph.add(0, 2, 5);
+        graph.add(1, 2, 2);
+        graph.add(1, 3, 2);
+        graph.add(1, 4, 1);
+        graph.add(2, 3, 1);
+        graph.add(2, 4, 2);
+        graph.add(3, 4, 1);
+        graph.add(3, 5, 3);
+        graph.add(4, 5, 1);
+        graph.add(4, 6, 2);
+        graph.add(5, 7, 4);
+        graph.add(6, 7, 1);
+        graph.add(7, 0, 2);
+
+        int[] cost = new int[num_nodes];
+        int[] parent = new int[num_nodes];
+
+        long startTime = System.nanoTime();
+
+        BellmanFord b = new BellmanFord(num_nodes, graph.getGraph().toArray(new Edge[0]), 0, cost, parent);
+        boolean result = b.getShortestDistances();
+
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        System.out.println("Bellman-Ford on 8 nodes: " + duration + " ns");
+
+        int[] expectedDistances = {
+                0,
+                1,
+                3,
+                3,
+                2,
+                3,
+                4,
+                5
+        };
+
+        assertArrayEquals(expectedDistances, cost);
+
+        List<Integer> path = b.getPath( 7);
+        List<Integer> expectedPath = Arrays.asList(0, 1, 4, 6, 7);
+        assertEquals(expectedPath, path);
     }
     
 

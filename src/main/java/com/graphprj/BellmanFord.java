@@ -26,7 +26,7 @@ public class BellmanFord {
 
         for(int i=0 ; i<v ; i++){
             for(Edge k : graph){
-                if(shortestpath[k.getFrom()] + k.getWeight() < shortestpath[k.getTo()]){
+                if(shortestpath[k.getFrom()] != Integer.MAX_VALUE && shortestpath[k.getFrom()] + k.getWeight() < shortestpath[k.getTo()]){
                     if(i == v-1){
                         System.out.println("Negative Cycle Detected !!");
                         return false;
