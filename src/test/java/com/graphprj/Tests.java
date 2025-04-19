@@ -114,7 +114,6 @@ public class Tests {
         
         assertTrue("Large graph should not have negative cycles", result);
         assertEquals("Distance 0->6 should be 5", 5.0, fw.getCosts()[0][6], 0.001);
-        // Updated assertion to match the actual result
         assertEquals("Distance 2->6 should be 9", 9.0, fw.getCosts()[2][6], 0.001);
     }
     
