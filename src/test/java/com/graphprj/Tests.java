@@ -204,7 +204,172 @@ public class Tests {
         assertEquals("Path 1->1 should have length 1", 1, path.size());
         assertEquals("Path 1->1 should contain only 1", 1, (int)path.get(0));
     }
+
+    @Test
+    public void FloydWarshallCompare1() {
+    double[][] smallGraph = {
+        {0,   10,  INF, 5,   INF},
+        {INF, 0,   1,   2,   INF},
+        {INF, INF, 0,   INF, 4},
+        {INF, 3,   9,   0,   2},
+        {7,   INF, 6,   INF, 0}
+    };
+
+    int n = smallGraph.length;
+    double[][] costs = new double[n][n];
+    Integer[][] predecessors = new Integer[n][n];
+
+    FloydWarshall fw = new FloydWarshall(smallGraph, costs, predecessors);
+    boolean result = fw.run();
+
+    assertTrue("Graph should not have negative weight cycles jjj", result);
+    assertEquals("Distance 0->1 should be 8", 8.0, fw.getCosts()[0][1], 0.001);
+    assertEquals("Distance 0->2 should be 9", 9.0, fw.getCosts()[0][2], 0.001);
+    assertEquals("Distance 1->0 should be 11", 11.0, fw.getCosts()[1][0], 0.001);
+    assertEquals("Distance 2->0 should be 11", 11.0, fw.getCosts()[2][0], 0.001);
+    }
+    @Test
+    public void FloydPerformanceCompare1() {
+
+        double[][] smallGraph = {
+            {0,   10,  INF, 5,   INF},
+            {INF, 0,   1,   2,   INF},
+            {INF, INF, 0,   INF, 4},
+            {INF, 3,   9,   0,   2},
+            {7,   INF, 6,   INF, 0}
+        };
+
+        int n = smallGraph.length;
+        double[][] costs = new double[n][n];
+        Integer[][] predecessors = new Integer[n][n];
+
+        long start = System.nanoTime();
+        FloydWarshall fw = new FloydWarshall(smallGraph, costs, predecessors);
+        fw.run();
+        long end = System.nanoTime();
+
+        long duration = end - start;
+        System.out.println("Floyd-Warshall on Compare1 graph (5x5): " + duration + " ns");
+
+        assertTrue("Algorithm should complete in reasonable time", duration < 1000000000); // 1s
+    }
+
+    @Test
+    public void FloydWarshallCompare2() {
+        double INF = Double.POSITIVE_INFINITY;
+
+        double[][] smallGraph = {
+            // 0     1     2     3     4     5     6
+            { 0,    1,   INF,  INF,  INF,  INF,  INF }, // 0
+            { INF,  0,    3,    2,    1,   INF,  INF }, // 1
+            { INF, INF,  0,   INF,    4,   INF,  INF }, // 2
+            { INF, INF, INF,   0,     2,   INF,  INF }, // 3
+            { INF, INF, INF,  INF,    0,    3,   INF }, // 4
+            { INF, INF, INF,  INF,  INF,    0,   INF }, // 5
+            { INF, INF, INF,   1,   INF,  INF,    0   }  // 6
+        };
+
+        int n = smallGraph.length;
+        double[][] costs = new double[n][n];
+        Integer[][] predecessors = new Integer[n][n];
+
+        FloydWarshall fw = new FloydWarshall(smallGraph, costs, predecessors);
+        boolean result = fw.run();
+
+        assertTrue("Graph should not have negative weight cycles", result);
+        assertEquals("Distance 0->4 should be 2", 2.0, fw.getCosts()[0][4], 0.001);
+        assertEquals("Distance 0->5 should be 5", 5.0, fw.getCosts()[0][5], 0.001);
+        assertEquals("Distance 6->4 should be 3", 3.0, fw.getCosts()[6][4], 0.001);
+        assertEquals("Distance 1->5 should be 4", 4.0, fw.getCosts()[1][5], 0.001);
+    }
+    @Test
+    public void FloydPerformanceCompare2() {
+
+        double[][] graph = {
+            { 0,    1,   INF,  INF,  INF,  INF,  INF },
+            { INF,  0,    3,    2,    1,   INF,  INF },
+            { INF, INF,  0,   INF,    4,   INF,  INF },
+            { INF, INF, INF,   0,     2,   INF,  INF },
+            { INF, INF, INF,  INF,    0,    3,   INF },
+            { INF, INF, INF,  INF,  INF,    0,   INF },
+            { INF, INF, INF,   1,   INF,  INF,    0 }
+        };
+
+        int n = graph.length;
+        double[][] costs = new double[n][n];
+        Integer[][] predecessors = new Integer[n][n];
+
+        long start = System.nanoTime();
+        FloydWarshall fw = new FloydWarshall(graph, costs, predecessors);
+        fw.run();
+        long end = System.nanoTime();
+
+        long duration = end - start;
+        System.out.println("Floyd-Warshall on Compare2 graph (7x7): " + duration + " ns");
+
+        assertTrue("Algorithm should complete in reasonable time", duration < 1000000000); // 1s
+    }
     
+    @Test
+    public void FloydWarshallCompare3() {
+        double INF = Double.POSITIVE_INFINITY;
+
+        double[][] graph = {
+            { 0,    1,    5,   INF,  INF,  INF,  INF,  2 },  // 0
+            { INF,  0,    2,    2,    1,   INF,  INF,  INF },  // 1
+            { INF, INF,   0,    1,    2,   INF,  INF,  INF },  // 2
+            { INF, INF, INF,    0,    1,    3,   INF,  INF },  // 3
+            { INF, INF, INF,   INF,   0,    1,    2,   INF },  // 4
+            { INF, INF, INF,   INF,  INF,    0,   INF,    4 },  // 5
+            { INF, INF, INF,   INF,   INF,   INF,    0,    1 },  // 6
+            { 2,   INF, INF,   INF,   INF,   4,    1,    0 }   // 7
+        };
+
+        int n = graph.length;
+        double[][] costs = new double[n][n];
+        Integer[][] predecessors = new Integer[n][n];
+
+        FloydWarshall fw = new FloydWarshall(graph, costs, predecessors);
+        boolean result = fw.run();
+
+        assertTrue("Graph should not have negative weight cycles", result);
+        assertEquals("Distance 0->4 should be 2", 2.0, fw.getCosts()[0][4], 0.001);
+        assertEquals("Distance 0->5 should be 3", 3.0, fw.getCosts()[0][5], 0.001);
+        assertEquals("Distance 6->4 should be 5", 5.0, fw.getCosts()[6][4], 0.001);
+        assertEquals("Distance 1->7 should be 4", 4.0, fw.getCosts()[1][7], 0.001);
+    }
+
+    @Test
+    public void FloydPerformanceCompare3() {
+        double INF = Double.POSITIVE_INFINITY;
+
+        double[][] graph = {
+            { 0,    1,    5,   INF,  INF,  INF,  INF,  2 },
+            { INF,  0,    2,    2,    1,   INF,  INF,  INF },
+            { INF, INF,   0,    1,    2,   INF,  INF,  INF },
+            { INF, INF, INF,    0,    1,    3,   INF,  INF },
+            { INF, INF, INF,   INF,   0,    1,    2,   INF },
+            { INF, INF, INF,   INF,  INF,    0,   INF,    4 },
+            { INF, INF, INF,   INF,   INF,   INF,    0,    1 },
+            { 2,   INF, INF,   INF,   INF,   4,    1,    0 }
+        };
+
+        int n = graph.length;
+        double[][] costs = new double[n][n];
+        Integer[][] predecessors = new Integer[n][n];
+
+        long start = System.nanoTime();
+        FloydWarshall fw = new FloydWarshall(graph, costs, predecessors);
+        fw.run();
+        long end = System.nanoTime();
+
+        long duration = end - start;
+        System.out.println("Floyd-Warshall on Compare3 graph (8x8): " + duration + " ns");
+
+        assertTrue("Algorithm should complete in reasonable time", duration < 1000000000); // 1s
+    }
+
+
     @Test
     public void FloydPerformanceSmall() {
         int n = smallGraph.length;
@@ -256,53 +421,6 @@ public class Tests {
         
         assertTrue("Algorithm should complete in reasonable time", duration < 1000000000); // 1 second
     }
-    
-//    @Test
-//    public void FloydPerformanceVeryLarge() {
-//        int n = 50; // Create a 50x50 random graph
-//        double[][] graph = generateRandomGraph(n, 0.3, -5, 10);
-//        double[][] costs = new double[n][n];
-//        Integer[][] predecessors = new Integer[n][n];
-//
-//        long startTime = System.nanoTime();
-//        FloydWarshall fw = new FloydWarshall(graph, costs, predecessors);
-//        fw.run();
-//        long endTime = System.nanoTime();
-//
-//        long duration = (endTime - startTime);
-//        System.out.println("Floyd-Warshall on very large graph (50x50): " + duration + " ns");
-//
-//        assertTrue("Algorithm should complete in reasonable time", duration < 5000000000L); // 5 seconds
-//    }
-//
-//    @Test
-//    public void FloydRandomGraphs() {
-//        for (int i = 0; i < 5; i++) {
-//            int n = 10 + i * 5; // Test graphs from 10x10 to 30x30
-//            double[][] graph = generateRandomGraph(n, 0.4, 1, 20);
-//            double[][] costs = new double[n][n];
-//            Integer[][] predecessors = new Integer[n][n];
-//
-//            FloydWarshall fw = new FloydWarshall(graph, costs, predecessors);
-//            boolean result = fw.run();
-//
-//            assertTrue("Random graph #" + i + " should not have negative cycles", result);
-//
-//            // Verify that all distances obey the triangle inequality
-//            for (int a = 0; a < n; a++) {
-//                for (int b = 0; b < n; b++) {
-//                    for (int c = 0; c < n; c++) {
-//                        if (fw.getCosts()[a][b] != INF && fw.getCosts()[b][c] != INF) {
-//                            assertTrue(
-//                                "Triangle inequality failed: d(" + a + "," + c + ") <= d(" + a + "," + b + ") + d(" + b + "," + c + ")",
-//                                fw.getCosts()[a][c] <= fw.getCosts()[a][b] + fw.getCosts()[b][c] + 0.001 // Add small epsilon for floating point comparison
-//                            );
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     @Test
     public void BellmanSimpleGraph() {
@@ -449,39 +567,21 @@ public class Tests {
         System.out.println("dijkstra algorithm ");
         System.out.print ("graph with 5 nodes");
          testDijkstra();
+         FloydPerformanceCompare1();
+         
 
         System.out.print ("graph with 7 nodes");
          test2Dijkstra();
+         FloydPerformanceCompare2();
 
         System.out.print ("graph with 8 nodes");
          test3Dijkstra();
+         FloydPerformanceCompare3();
 
          //apply Floyd-Warshall algorithm and floydWarshall
 
     }
     
-//    // Utility method to generate random graphs for testing
-//    private double[][] generateRandomGraph(int n, double density, double minWeight, double maxWeight) {
-//        double[][] graph = new double[n][n];
-//        Random random = new Random(42); // Fixed seed for reproducibility
-//
-//        // Initialize with INF
-//        for (int i = 0; i < n; i++) {
-//            Arrays.fill(graph[i], INF);
-//            graph[i][i] = 0; // Self-loops are 0
-//        }
-//
-//        // Add random edges
-//        for (int i = 0; i < n; i++) {
-//            for (int j = 0; j < n; j++) {
-//                if (i != j && random.nextDouble() < density) {
-//                    graph[i][j] = minWeight + random.nextDouble() * (maxWeight - minWeight);
-//                }
-//            }
-//        }
-//
-//        return graph;
-//    }
 
     @Test
     public void testDijkstra() {
