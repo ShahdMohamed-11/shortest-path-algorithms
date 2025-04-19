@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-21\bin"/>
-    <property name="sun.java.command" value="C:\Users\MICROS~1\AppData\Local\Temp\surefire15576918628766667256\surefirebooter7623827015454888529.jar C:\Users\Micro Systems\AppData\Local\Temp\surefire15576918628766667256 2025-04-19T12-10-45_156-jvmRun1 surefire13995325464203042887tmp surefire_010203207030960665519tmp"/>
+    <property name="sun.java.command" value="C:\Users\MICROS~1\AppData\Local\Temp\surefire11727076700093577426\surefirebooter10619580307266327109.jar C:\Users\Micro Systems\AppData\Local\Temp\surefire11727076700093577426 2025-04-19T12-38-56_249-jvmRun1 surefire10150302111747390908tmp surefire_0870552048022944157tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="D:\clone\shortest-path-algorithms\target\test-classes;D:\clone\shortest-path-algorithms\target\classes;C:\Users\Micro Systems\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\Micro Systems\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\MICROS~1\AppData\Local\Temp\surefire15576918628766667256\surefirebooter7623827015454888529.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\MICROS~1\AppData\Local\Temp\surefire11727076700093577426\surefirebooter10619580307266327109.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.6+8-LTS-188"/>
@@ -58,19 +58,19 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testPerformanceVeryLarge" classname="com.graphprj.Tests" time="0.051"/>
-  <testcase name="testPerformanceMedium" classname="com.graphprj.Tests" time="0.037"/>
+  <testcase name="testPerformanceVeryLarge" classname="com.graphprj.Tests" time="0.065"/>
+  <testcase name="testPerformanceMedium" classname="com.graphprj.Tests" time="0.009"/>
   <testcase name="testPathReconstruction" classname="com.graphprj.Tests" time="0"/>
-  <testcase name="testRandomGraphs" classname="com.graphprj.Tests" time="0.067"/>
+  <testcase name="testRandomGraphs" classname="com.graphprj.Tests" time="0.09"/>
   <testcase name="testMediumGraph" classname="com.graphprj.Tests" time="0"/>
-  <testcase name="testSmallGraph" classname="com.graphprj.Tests" time="0"/>
-  <testcase name="testPerformanceLarge" classname="com.graphprj.Tests" time="0.034"/>
-  <testcase name="testPerformanceSmall" classname="com.graphprj.Tests" time="0.001"/>
+  <testcase name="testSmallGraph" classname="com.graphprj.Tests" time="0.001"/>
+  <testcase name="testPerformanceLarge" classname="com.graphprj.Tests" time="0.001"/>
+  <testcase name="testPerformanceSmall" classname="com.graphprj.Tests" time="0"/>
   <testcase name="testIdentityPath" classname="com.graphprj.Tests" time="0"/>
-  <testcase name="testNegativeWeights" classname="com.graphprj.Tests" time="0"/>
-  <testcase name="testAlgorithmComparison" classname="com.graphprj.Tests" time="0.003"/>
-  <testcase name="testDisconnectedGraph" classname="com.graphprj.Tests" time="0"/>
+  <testcase name="testNegativeWeights" classname="com.graphprj.Tests" time="0.001"/>
+  <testcase name="testAlgorithmComparison" classname="com.graphprj.Tests" time="0.001"/>
+  <testcase name="testDisconnectedGraph" classname="com.graphprj.Tests" time="0.001"/>
   <testcase name="testNegativeCycle" classname="com.graphprj.Tests" time="0"/>
-  <testcase name="testLargeGraph" classname="com.graphprj.Tests" time="0"/>
-  <testcase name="testNoPath" classname="com.graphprj.Tests" time="0"/>
+  <testcase name="testLargeGraph" classname="com.graphprj.Tests" time="0.001"/>
+  <testcase name="testNoPath" classname="com.graphprj.Tests" time="0.001"/>
 </testsuite>

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FloydWarshall {
-    private double[][] costs;
-    private Integer[][] predecessors;
+    public double[][] costs;
+    public Integer[][] predecessors;
     private int n;
     private static final double INF = Double.POSITIVE_INFINITY;
 
@@ -155,6 +155,15 @@ public class FloydWarshall {
                     }
                 }
             }
+
+            System.out.println("Shortest path distances (Floyd-Warshall):");
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    System.out.printf("%5s ", fw.costs[i][j] == Double.POSITIVE_INFINITY ? "INF" : fw.costs[i][j]);
+                }
+                System.out.println();
+            }
+
         } else {
             System.out.println("Negative cycle detected in the graph.");
         }
