@@ -1,3 +1,5 @@
+package com.graphprj;
+
 public class Node {
     int id;
     int distance;

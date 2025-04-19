@@ -1,3 +1,4 @@
+package com.graphprj;
 
 public class WeightedGraph {
 

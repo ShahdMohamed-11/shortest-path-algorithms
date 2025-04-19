@@ -1,3 +1,4 @@
+package com.graphprj;
 import java.util.*;
 
 public class DijkstraAlgorithm {

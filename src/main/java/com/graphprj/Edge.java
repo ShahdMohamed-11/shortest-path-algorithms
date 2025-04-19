@@ -1,3 +1,4 @@
+package com.graphprj;
 public class Edge {
     int from;
     int to;
