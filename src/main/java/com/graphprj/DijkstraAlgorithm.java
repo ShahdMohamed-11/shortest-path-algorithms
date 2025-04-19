@@ -35,7 +35,9 @@ public class DijkstraAlgorithm {
 
         while (!unvisitednodes.isEmpty()) {
             currentnode = unvisitednodes.poll();
+            if (currentnode.visited) continue;
             currentnode.visited = true;
+
             int currentnodeid = currentnode.id;
 
             for (int i = 0; i < graph.num_nodes; i++) {
@@ -45,7 +47,6 @@ public class DijkstraAlgorithm {
                     if (ArrayOFNodes[i].distance > newdistance) {
                         ArrayOFNodes[i].distance = newdistance;
                         parent[i] = currentnodeid;
-                        unvisitednodes.remove(ArrayOFNodes[i]);
                         unvisitednodes.add(ArrayOFNodes[i]);
                     }
                 }
@@ -84,7 +85,7 @@ public class DijkstraAlgorithm {
         int num_nodes = 6;
 
         WeightedGraph graph = new WeightedGraph(num_nodes);
-        
+
         graph.addEdge(0, 1, 2);
         graph.addEdge(0, 2, 4);
         graph.addEdge(1, 2, 1);
